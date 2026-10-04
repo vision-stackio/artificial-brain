@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vision · Brain</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app" data-emotion="NEUTRAL">
+  <header id="top">
+    <div class="brand">Vision<span>cortex simulation</span></div>
+    <div class="mood" aria-live="polite">
+      <div id="emotion-word">neutral</div>
+      <div id="emotion-why">at rest, waiting for something to happen</div>
+      <div class="meter"><i id="emotion-meter"></i></div>
+    </div>
+    <div class="clock">
+      <div><b>t</b> <span id="clock">0.00</span> s</div>
+      <div id="awake">awake</div>
+      <div id="link" class="pill off"><i></i><span>no terminal</span></div>
+    </div>
+  </header>
+
+  <main id="stage">
+    <section class="view"><canvas id="v-left"></canvas><div class="vlabel">left side <em>drag to turn</em></div></section>
+    <section class="view"><canvas id="v-right"></canvas><div class="vlabel">right side <em>drag to turn</em></div></section>
+    <section class="view"><canvas id="v-top"></canvas><div class="vlabel">from above <em>drag to turn</em></div></section>
+  </main>
+
+  <aside id="rail">
+    <h2>Firing rate</h2>
+    <ol id="firing"></ol>
+    <h2>Systems</h2>
+    <ul id="legend"></ul>
+    <p class="keys"><kbd>L</kbd> labels <kbd>E</kbd> signal paths <kbd>R</kbd> spin <kbd>P</kbd> pause</p>
+  </aside>
+
+  <footer id="bottom">
+    <section id="p-stim">
+      <h2>Perceiving</h2>
+      <div class="stim">
+        <img id="stim-img" alt="" hidden>
+        <div class="stim-text">
+          <div id="stim-label" class="idle">Nothing yet. Type <code>see</code>, <code>hear</code>, <code>smell</code>… in the terminal.</div>
+          <div id="stim-meta"></div>
+          <div id="stim-bars"></div>
+        </div>
+      </div>
+    </section>
+    <section id="p-chem"><h2>Chemistry</h2><div id="chem"></div></section>
+    <section id="p-decide"><h2>Deciding</h2><div id="race"></div><div id="decided"></div></section>
+    <section id="p-log"><h2>Log</h2><ol id="log"></ol></section>
+  </footer>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
