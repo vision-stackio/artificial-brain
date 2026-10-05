@@ -197,18 +197,79 @@ Each of the three views slowly orbits. Drag any view to take manual control; it 
 | `R` | Toggle continuous spin |
 | `P` | Pause / unpause |
 
+### Brain Region Abbreviations
+
+| Short | Full Name | Role in this model |
+|-------|-----------|--------------------|
+| **LGN** | Lateral Geniculate Nucleus | First relay for what the eyes see |
+| **V1** | Primary Visual Cortex | Edges, light, contrast |
+| **V2V4** | Extrastriate Visual Cortex (V2/V4) | Colour, shape, texture |
+| **MT** | Motion Area (MT/V5) | Movement in the scene |
+| **IT** | Inferior Temporal Cortex | Recognising what an object is |
+| **FFA** | Fusiform Face Area | Faces |
+| **MGN** | Medial Geniculate Nucleus | First relay for sound |
+| **A1** | Primary Auditory Cortex | Pitch, loudness, timing |
+| **WERN** | Wernicke’s Area | Understanding words |
+| **BROCA** | Broca’s Area | Forming a reply |
+| **S1** | Somatosensory Cortex | Touch, pressure, where it hurts |
+| **M1** | Primary Motor Cortex | Sending movement commands |
+| **PMC** | Premotor / Supplementary Motor | Planning movement |
+| **PPC** | Posterior Parietal Cortex | Spatial attention |
+| **CB** | Cerebellum | Smoothing and timing movement |
+| **TPJ** | Temporoparietal Junction | What is that person thinking / feeling |
+| **DLPFC** | Dorsolateral Prefrontal Cortex | Working memory, deliberate choice |
+| **MPFC** | Medial Prefrontal Cortex | Self and other people |
+| **VMPFC** | Ventromedial Prefrontal Cortex | Value, calming the amygdala |
+| **OFC** | Orbitofrontal Cortex | How good or bad is this |
+| **TPOLE** | Temporal Pole | Meaning of people and things |
+| **ACC** | Anterior Cingulate Cortex | Conflict, effort, the “ouch” of pain |
+| **SGACC** | Subgenual Cingulate | Sadness and low mood |
+| **PCC** | Posterior Cingulate / Precuneus | Self, mind-wandering, rumination |
+| **INS** | Insula | Gut feeling, disgust, pain, body state |
+| **AMY** | Amygdala | Is this dangerous or important? |
+| **HIPP** | Hippocampus | Have I seen this before; making memories |
+| **PHC** | Parahippocampal / Entorhinal | Place and context memory |
+| **HYP** | Hypothalamus | Stress hormones, body response |
+| **NACC** | Nucleus Accumbens | Pleasure and wanting |
+| **VTA** | Ventral Tegmental Area / Substantia Nigra | Dopamine: “that was better than expected” |
+| **CAUD** | Caudate Nucleus | Goal-directed action choice |
+| **PUT** | Putamen | Habit and motor selection |
+| **THAL** | Thalamus | Routes everything to cortex |
+| **OLF** | Olfactory (Piriform) Cortex | Smell (wired straight into emotion & memory) |
+| **SC** | Superior Colliculus | Snap attention to sudden things |
+| **PAG** | Periaqueductal Grey | Freeze / fight / flee, pain control |
+| **LC** | Locus Coeruleus | Alertness (releases noradrenaline) |
+| **RAPHE** | Raphe Nuclei | Mood stability and calm (releases serotonin) |
+| **BF** | Basal Forebrain | Attention (releases acetylcholine) |
+| **RF** | Reticular Formation / Brainstem | Wakefulness and basic arousal |
+
+### Neuromodulators
+
+| Short | Full Name | Rough role |
+|-------|-----------|------------|
+| dopamine | Dopamine | Reward, motivation, “better than expected” |
+| serotonin | Serotonin | Mood stability, calm |
+| noradrenaline | Noradrenaline (Norepinephrine) | Alertness, urgency |
+| adrenaline | Adrenaline (Epinephrine) | Fight-or-flight circulating effect |
+| cortisol | Cortisol | Stress hormone |
+| oxytocin | Oxytocin | Social bonding / trust |
+| endorphin | Endorphins | Pain relief / pleasure |
+| acetylcholine | Acetylcholine | Attention, learning |
+| gaba | GABA | Inhibition / calming the brain |
+| melatonin | Melatonin | Sleep / circadian |
+
 In the browser console the live simulation is available as `brain`.
 
 <br/>
 
 ## Plug into Artificial
 
-`integration/ArtificialBridge.ts` is a zero-dependency client:
+`integration/artificialBridge.ts` is a zero-dependency client:
 
 ```ts
 const brain = new BrainClient("http://localhost:7070");
 await brain.perceive({
-  modality: "Artificial",
+  modality: "artificial",
   image: framePath,
   tag: "a person smiling"
 });
