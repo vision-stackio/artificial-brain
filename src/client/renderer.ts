@@ -118,7 +118,7 @@ export class BrainRenderer {
   private frameNo = 0;
   private fx2: Float32Array;
   private seed = 2463534242;
-  private lut = (() => { const t = new Uint8ClampedArray(1024); for (let i = 0; i < 1024; i++) t[i] = 255 * (1 - Math.exp(-1.1 * (i / 256))); return t; })();
+  private lut = (() => { const t = new Uint8ClampedArray(1024); for (let i = 0; i < 1024; i++) t[i] = 255 * (1 - Math.exp(-0.95 * (i / 256))); return t; })();
 
   constructor(private sim: BrainSim, private cloud: NeuronCloud, private fibres: Fibres, canvases: Record<ViewId, HTMLCanvasElement>) {
     this.glow = new Float32Array(cloud.count);
@@ -245,7 +245,7 @@ export class BrainRenderer {
       this.mix[k] = m + (target - m) * (1 - Math.exp(-dt / (target > m ? 0.1 : 1.6)));
     }
     for (let k = 0; k < this.mix.length; k++) {
-      const m = this.mix[k], gr = 0.76;
+      const m = this.mix[k], gr = 0.66;
       for (let c = 0; c < 3; c++) this.nodeRGB[k * 3 + c] = gr * (1 - m) + this.groupRGB[k * 3 + c] * m;
     }
     this.updateDrops(dt);
@@ -330,7 +330,7 @@ export class BrainRenderer {
     vw.bloomCtx.globalCompositeOperation = "source-over";
     vw.midCtx.drawImage(vw.off, 0, 0, vw.mid.width, vw.mid.height);          // two-step downsample = a proper blur
     vw.bloomCtx.drawImage(vw.mid, 0, 0, vw.bloom.width, vw.bloom.height);
-    ctx.globalAlpha = 0.5;
+    ctx.globalAlpha = 0.38;
     ctx.drawImage(vw.bloom, 0, 0, W, H);
     ctx.globalAlpha = 1;
 
@@ -508,10 +508,10 @@ export class BrainRenderer {
         else { const f = vw.face[i]; if (f < 0.04) continue; vis = 0.08 + 0.92 * f; }   // far-side cortex stays hidden
         const g = glow[i];
         const a = act[node];
-        let I = ((deep ? 0.2 : 0.56 * qcomp) + 0.14 * a) * vw.shade[i] * cloud.crest[i] * this.rip[i] + (deep ? 0 : vw.spec[i] * qcomp * 0.18);
+        let I = ((deep ? 0.18 : 0.5 * qcomp) + 0.12 * a) * vw.shade[i] * cloud.crest[i] * this.rip[i] + (deep ? 0 : vw.spec[i] * qcomp * 0.18);
         I = (I + g * (deep ? 0.4 : 0.55)) * vis;
         const x = vw.sx[i], y = vw.sy[i];
-        const w = g * g * 0.15;                                  // a spiking neuron burns white at its core
+        const w = g * g * 0.08;                                  // a spiking neuron burns white at its core
         const r = nodeRGB[node * 3] + (1 - nodeRGB[node * 3]) * w;
         const gg = nodeRGB[node * 3 + 1] + (1 - nodeRGB[node * 3 + 1]) * w;
         const b = nodeRGB[node * 3 + 2] + (1 - nodeRGB[node * 3 + 2]) * w;

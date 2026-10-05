@@ -4,6 +4,9 @@ import { GROUP_COLOR, GROUP_LABEL, Group } from "../shared/regions";
 import { EmotionLabel, Stimulus } from "../shared/types";
 import { CHEMS } from "../shared/chem";
 
+/** one line of history; saved in the browser so it survives a reload */
+export interface HistoryItem { at: number; kind: "stim" | "emo" | "dec" | "sys"; a: string; b: string }
+
 export const EMOTION_COLOR: Record<EmotionLabel, string> = {
   NEUTRAL: "#b0b0b0", CALM: "#7bdff2", HAPPY: "#ffd166", EXCITED: "#ff9f1c", CURIOUS: "#4cc9f0", SURPRISED: "#f15bb5",
   FEARFUL: "#b388ff", ANGRY: "#ff3b3b", DISGUSTED: "#9ccc3c", SAD: "#5c7cfa", PAIN: "#ff6b35",
@@ -97,13 +100,64 @@ export class Hud {
     }
   }
 
-  log(kind: "stim" | "emo" | "dec" | "sys", html: string) {
+  private static esc(t: string) { return t.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]!)); }
+  private static html(it: HistoryItem): string {
+    const e = Hud.esc;
+    switch (it.kind) {
+      case "stim": return `<b>${e(it.a)}</b> ${e(it.b)}`;
+      case "emo": return `feels <b style="color:${EMOTION_COLOR[it.a as EmotionLabel] ?? "#ddd"}">${e(it.a.toLowerCase())}</b>${it.b ? ` ← ${e(it.b)}` : ""}`;
+      case "dec": return `decides <b>${e(it.a.toLowerCase())}</b>${it.b ? ` ← ${e(it.b)}` : ""}`;
+      default: return e(it.b);
+    }
+  }
+  private static clock(at: number, withDate = false) {
+    const d = new Date(at);
+    const t = d.toLocaleTimeString([], { hour12: false });
+    return withDate ? `${d.toLocaleDateString([], { day: "numeric", month: "short" })} ${t}` : t;
+  }
+
+  /** newest line goes on top; the panel only keeps what fits, so there is no scrollbar */
+  add(it: HistoryItem) {
     const ol = $("log");
     const li = document.createElement("li");
-    li.innerHTML = `<time>${this.sim.time.toFixed(1)}s</time><span>${html}</span>`;
+    li.innerHTML = `<time>${Hud.clock(it.at)}</time><span>${Hud.html(it)}</span>`;
     ol.prepend(li);
-    while (ol.children.length > 1 && ol.scrollHeight > ol.clientHeight + 1) ol.lastElementChild?.remove();   // newest on top; no scrollbar needed
+    while (ol.children.length > 1 && ol.scrollHeight > ol.clientHeight + 1) ol.lastElementChild?.remove();
   }
+
+  /** fill the log from saved history (oldest first) */
+  setItems(items: HistoryItem[]) {
+    $("log").innerHTML = "";
+    for (const it of items) this.add(it);
+  }
+
+  /** full history window (H key): everything that has been saved, newest first */
+  toggleHistory(items: HistoryItem[], onClear: () => void) {
+    const box = $("history");
+    if (!box.hidden) { box.hidden = true; return; }
+    const list = $("hlist");
+    list.innerHTML = "";
+    for (let i = items.length - 1; i >= 0; i--) {
+      const it = items[i];
+      const li = document.createElement("li");
+      li.innerHTML = `<time>${Hud.clock(it.at, true)}</time><span>${Hud.html(it)}</span>`;
+      list.appendChild(li);
+    }
+    if (!items.length) list.innerHTML = `<li><span>nothing yet</span></li>`;
+    $("hcount").textContent = `${items.length} entries`;
+    $("hclear").onclick = () => { onClear(); box.hidden = true; };
+    box.hidden = false;
+  }
+  /** back to the empty "Nothing yet" state */
+  clearStimulus() {
+    $<HTMLImageElement>("stim-img").hidden = true;
+    const label = $("stim-label");
+    label.className = "idle";
+    label.innerHTML = "Nothing yet. Type <code>see</code>, <code>hear</code>, <code>smell</code>… in the terminal.";
+    $("stim-meta").textContent = "";
+    $("stim-bars").innerHTML = "";
+  }
+  closeHistory() { $("history").hidden = true; }
 
   /** ~8 Hz DOM refresh (the canvas runs every frame) */
   update(groupColour: Map<Group, number>) {

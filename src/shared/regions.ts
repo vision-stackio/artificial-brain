@@ -98,7 +98,7 @@ export const REGIONS: RegionDef[] = [
   { id: "LC", name: "Locus coeruleus (noradrenaline)", group: "brainstem", kind: "blob", pos: [-4, -38, -26], radii: [2, 2, 2], neurons: 16, tau: 0.08, rest: 0.05, role: "alertness: wakes the whole cortex up" },
   { id: "RAPHE", name: "Raphe nuclei (serotonin)", group: "brainstem", kind: "blob", pos: [0, -27, -24], radii: [2, 2, 7], neurons: 24, tau: 0.2, rest: 0.1, midline: true, role: "mood stability and calm" },
   { id: "BF", name: "Basal forebrain (acetylcholine)", group: "brainstem", kind: "blob", pos: [-9, 8, -13], radii: [4, 4, 3], neurons: 26, tau: 0.08, rest: 0.04, role: "attention: sprays acetylcholine over the cortex" },
-  { id: "RF", name: "Reticular formation / brainstem", group: "brainstem", kind: "blob", pos: [0, -30, -46], radii: [6, 6, 14], neurons: 70, tau: 0.1, rest: 0.08, midline: true, role: "wakefulness and basic arousal" },
+  { id: "RF", name: "Reticular formation / brainstem", group: "brainstem", kind: "blob", pos: [0, -30, -31], radii: [6, 6, 6], neurons: 70, tau: 0.1, rest: 0.08, midline: true, role: "wakefulness and basic arousal" },
 ];
 
 export interface NodeInfo {

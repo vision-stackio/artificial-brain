@@ -3,7 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Vision · Brain</title>
+<title>Vision's Brain</title>
+    <link rel="icon" type="image/svg+xml" href="/assets/Vision.png" />
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -33,7 +34,7 @@
     <ol id="firing"></ol>
     <h2>Systems</h2>
     <ul id="legend"></ul>
-    <p class="keys"><kbd>L</kbd> labels <kbd>E</kbd> signal paths <kbd>R</kbd> spin <kbd>P</kbd> pause</p>
+    <p class="keys"><kbd>L</kbd> labels <kbd>E</kbd> signal paths <kbd>R</kbd> spin <kbd>H</kbd> history <kbd>P</kbd> pause</p>
   </aside>
 
   <footer id="bottom">
@@ -52,6 +53,12 @@
     <section id="p-decide"><h2>Deciding</h2><div id="race"></div><div id="decided"></div></section>
     <section id="p-log"><h2>Log</h2><ol id="log"></ol></section>
   </footer>
+</div>
+<div id="history" hidden>
+  <div class="hbox">
+    <h2>History <span id="hcount"></span> <button id="hclear" type="button">clear all</button> <em>H or Esc to close</em></h2>
+    <ol id="hlist"></ol>
+  </div>
 </div>
 <script src="app.js"></script>
 </body>

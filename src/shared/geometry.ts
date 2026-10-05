@@ -142,18 +142,6 @@ export function buildCloud(nodes: NodeInfo[], density = 1, seed = 1337): NeuronC
     }
   }
 
-  // brainstem and spinal cord: a tapering, slightly curved tube leaving the underside
-  const rf = nodes.find((n) => n.region.id === "RF");
-  if (rf) {
-    const m = Math.round(450 * density);
-    for (let i = 0; i < m; i++) {
-      const t = Math.pow(rnd(), 0.85);
-      const cy = -30 - 6 * t + 2 * Math.sin(t * 3), cz = -26 - 24 * t;     // short stub: about 2 cm below the brain
-      const rad = 7.5 - 2.5 * t, a = rnd() * Math.PI * 2, r = rad * Math.sqrt(rnd());
-      push([r * Math.cos(a), cy + r * Math.sin(a) * 0.8, cz], rf.index, 0.8 + 0.3 * rnd());
-    }
-  }
-
   return {
     count: xs.length,
     x: Float32Array.from(xs), y: Float32Array.from(ys), z: Float32Array.from(zs),
